@@ -1,7 +1,7 @@
 package terraform
 
 import (
-    "dagger.io/dagger"
+	"dagger.io/dagger"
 
 	"universe.dagger.io/terraform"
 )
@@ -9,27 +9,27 @@ import (
 let tfversion = "1.1.7"
 
 dagger.#Plan & {
-    client: filesystem: "./data": read: contents: dagger.#FS
+	client: filesystem: "./data": read: contents: dagger.#FS
 
-    actions: {
-        // Terraform init
-        init: terraform.#Init & {
-            directory: client.filesystem."./data".read.contents
-            version: tfversion // defaults to latest
-        }
+	actions: {
+		// Terraform init
+		init: terraform.#Init & {
+			directory: client.filesystem."./data".read.contents
+			version:   tfversion // defaults to latest
+		}
 
-        // Terraform plan
-        plan: terraform.#Plan & {
-            directory: init.output
-            version: tfversion
-        }
+		// Terraform plan
+		plan: terraform.#Plan & {
+			directory: init.output
+			version:   tfversion
+		}
 
-        // Implemnt any further actions here. tfsec, trivy, you name it
+		// Implemnt any further actions here. tfsec, trivy, you name it
 
-        // Terraform apply
-        apply: terraform.#Apply & {
-            directory: plan.output
-            version: tfversion
-        }
-    }
+		// Terraform apply
+		apply: terraform.#Apply & {
+			directory: plan.output
+			version:   tfversion
+		}
+	}
 }
