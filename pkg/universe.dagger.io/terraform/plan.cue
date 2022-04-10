@@ -7,10 +7,10 @@
 package terraform
 
 import (
-    "dagger.io/dagger"
-	  "dagger.io/dagger/core"
+	"dagger.io/dagger"
+	"dagger.io/dagger/core"
 
-	  "universe.dagger.io/docker"
+	"universe.dagger.io/docker"
 )
 
 // Terraform plan
@@ -32,7 +32,7 @@ import (
 				dest:     "/src"
 				contents: directory
 			},
-			
+
 			// Run plan
 			docker.#Run & {
 				command: {
@@ -40,7 +40,7 @@ import (
 					args: ["-input=false", "-out=./tfplan.out"]
 				}
 				workdir: "/src"
-			}
+			},
 		]
 	}
 
